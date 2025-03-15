@@ -13,6 +13,10 @@ public class Dice {
         return faces[random.nextInt(faces.length)];
     }
 
+    public int getFace(int index) {
+        return faces[index];
+    }
+
     public String format() {
         StringBuilder sb = new StringBuilder("[");
         for (int i = 0; i < faces.length; i++) {
