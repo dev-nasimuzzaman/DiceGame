@@ -14,6 +14,12 @@ public class Dice {
     }
 
     public String format() {
-        return "[" + faces[0] + "," + faces[1] + "," + faces[2] + "," + faces[3] + "," + faces[4] + "," + faces[5] + "]";
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < faces.length; i++) {
+            sb.append(faces[i]);
+            if (i < faces.length - 1) sb.append(",");
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }

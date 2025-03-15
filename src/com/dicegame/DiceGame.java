@@ -9,8 +9,8 @@ public class DiceGame {
     private Scanner scanner;
     private HMACGenerator hmacGenerator;
 
-    public DiceGame() {
-        diceSet = new DiceSet();
+    public DiceGame(int[][] diceFaces) {
+        diceSet = new DiceSet(diceFaces);
         random = new SecureRandom();
         scanner = new Scanner(System.in);
         hmacGenerator = new HMACGenerator();
@@ -18,7 +18,7 @@ public class DiceGame {
 
     private void printHelp() {
         System.out.println("Available commands:");
-        System.out.println("0-5 - Select a number");
+        System.out.println("0-" + (diceSet.getNumberOfDiceSets() - 1) + " - Select a dice");
         System.out.println("X - Exit the game");
         System.out.println("? - Show this help message");
     }
@@ -129,9 +129,31 @@ public class DiceGame {
     }
 
     public static void main(String[] args) throws Exception {
+        if (args.length < 3) {
+            System.out.println("Error: At least 3 dice sets are required.");
+            System.out.println("Usage: java DiceGame <dice1> <dice2> <dice3> ...");
+            System.out.println("Example: java DiceGame 2,2,4,4,9,9 6,8,1,1,8,6 7,5,3,7,5,3");
+            System.exit(1);
+        }
+
+        int[][] diceFaces = new int[args.length][];
+        for (int i = 0; i < args.length; i++) {
+            String[] parts = args[i].split(",");
+            diceFaces[i] = new int[parts.length];
+            for (int j = 0; j < parts.length; j++) {
+                try {
+                    diceFaces[i][j] = Integer.parseInt(parts[j]);
+                } catch (NumberFormatException e) {
+                    System.out.println("Error: Invalid dice face value '" + parts[j] + "'.");
+                    System.out.println("All dice faces must be integers.");
+                    System.exit(1);
+                }
+            }
+        }
+
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            DiceGame game = new DiceGame();
+            DiceGame game = new DiceGame(diceFaces);
             game.startGame();
 
             System.out.print("Do you want to play again? (Y/N): ");

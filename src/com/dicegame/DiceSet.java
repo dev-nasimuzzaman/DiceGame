@@ -3,12 +3,11 @@ package com.dicegame;
 public class DiceSet {
     private Dice[] diceSets;
 
-    public DiceSet() {
-        diceSets = new Dice[]{
-                new Dice(new int[]{2, 2, 4, 4, 9, 9}),
-                new Dice(new int[]{6, 8, 1, 1, 8, 6}),
-                new Dice(new int[]{7, 5, 3, 7, 5, 3})
-        };
+    public DiceSet(int[][] diceFaces) {
+        diceSets = new Dice[diceFaces.length];
+        for (int i = 0; i < diceFaces.length; i++) {
+            diceSets[i] = new Dice(diceFaces[i]);
+        }
     }
 
     public Dice getDice(int index) {
